@@ -1,0 +1,83 @@
+{
+  "id": "40c252c8-2983-434b-9b13-01e86fa44894",
+  "title": "A behavior tree",
+  "description": "",
+  "root": "8f8a5013-e014-4310-84f5-04c9dd18dca8",
+  "properties": {},
+  "nodes": {
+    "8f8a5013-e014-4310-84f5-04c9dd18dca8": {
+      "id": "8f8a5013-e014-4310-84f5-04c9dd18dca8",
+      "name": "Sequence",
+      "title": "wander",
+      "description": "徘徊",
+      "properties": {},
+      "display": {
+        "x": -384,
+        "y": -48
+      },
+      "children": [
+        "0cc92d5d-7179-4e8e-b2e4-19e9fea014d7",
+        "a414b3af-bccd-4eac-b3e5-9e454b6da52a",
+        "3a38510d-7a06-46f5-a0a4-deeec8df5b12"
+      ]
+    },
+    "0cc92d5d-7179-4e8e-b2e4-19e9fea014d7": {
+      "id": "0cc92d5d-7179-4e8e-b2e4-19e9fea014d7",
+      "name": "FindWanderPoint",
+      "title": "FindWanderPoint",
+      "description": "找到徘徊点",
+      "properties": {},
+      "display": {
+        "x": -180,
+        "y": -144
+      }
+    },
+    "a414b3af-bccd-4eac-b3e5-9e454b6da52a": {
+      "id": "a414b3af-bccd-4eac-b3e5-9e454b6da52a",
+      "name": "MoveToPoint",
+      "title": "MoveToPoint",
+      "description": "移动到指定点",
+      "properties": {},
+      "display": {
+        "x": -180,
+        "y": -48
+      }
+    },
+    "3a38510d-7a06-46f5-a0a4-deeec8df5b12": {
+      "id": "3a38510d-7a06-46f5-a0a4-deeec8df5b12",
+      "name": "Wait",
+      "title": "Wait <milliseconds>ms",
+      "description": "",
+      "properties": {
+        "milliseconds": 50
+      },
+      "display": {
+        "x": -180,
+        "y": 36
+      }
+    }
+  },
+  "display": {
+    "camera_x": 913.5,
+    "camera_y": 494.5,
+    "camera_z": 1,
+    "x": -588,
+    "y": -48
+  },
+  "custom_nodes": [
+    {
+      "name": "FindWanderPoint",
+      "category": "action",
+      "title": "FindWanderPoint",
+      "description": "找到徘徊点",
+      "properties": {}
+    },
+    {
+      "name": "MoveToPoint",
+      "category": "action",
+      "title": "MoveToPoint",
+      "description": "移动到指定点",
+      "properties": {}
+    }
+  ]
+}
