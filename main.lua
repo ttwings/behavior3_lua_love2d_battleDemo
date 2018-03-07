@@ -1,26 +1,14 @@
-local System = require 'lib.knife.system'
-local tool = require 'lib.util'
-local log = require 'lib.log'
+require 'lib.util'
 local actions = require("actions")
 local drawObjs = require("drawObjs")
 local Input = require "lib/Input"
-
 require( "lib.behavior3" )
+
 colors = {}
 colors.backgroud = {255,255,255}
 colors.player = {255,0,0}
 colors.enemy = {0,255,255}
 colors.timer = {255,255,0}
---- uuid ceshi
-
--- function createID()
---     local seed = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'}
---     local tb = {}
---     for i =1,32 do
---         table.insert(tb, seed[math.random(1,16)])
---     end
---     return  table.concat(tb)
--- end
 
 --- 简单调试测试
 
@@ -101,9 +89,6 @@ function love.load()
     behaviorTree:load('lib/behavior3/jsons/behavior3.json', {})
     local wp1 = blackBoard:get("wanderPoint")
     print(wp1.x .. "------------------------------------------------")
-
-
-
 end
 
 function love.draw()
@@ -118,13 +103,6 @@ function love.draw()
     -- temperature
     drawObjs.temperature(temperature,760,500)
 end
-
---enemyAcion = {}
---enemyAcion.N = actions.moveN()
---enemyAcion.S = actions.moveS()
---enemyAcion.E = actions.moveE()
---enemyAcion.W = actions.moveW()
-
 
 function love.update(dt)
     if player.turn > timer.turn then
