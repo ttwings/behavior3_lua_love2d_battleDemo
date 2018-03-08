@@ -6,26 +6,31 @@ function moveToPoint:ctor(settings)
 
 	self.name = "moveToPoint"
 	self.title = "moveToPoint"
-	-- self.parameters = {milliseconds = 0,}
+	 self.parameters = {x = 0,y = 0}
 	-- self.endTime = settings.endTime or self.parameters.milliseconds
 	-- settings = settings or {}
 end
+colors = {}
+colors.backgroud = {255,255,255}
+colors.player = {255,0,0}
+colors.enemy = {0,255,255}
+colors.timer = {255,255,0}
+
+player = {x = 5,y = 5,hp = 8,turn = 100,name = "东方",action = "行动",
+		  color = colors.player,skill1={name="长拳",exp=1},skill2={name="罗汉拳",exp=1},skill3={name="通背拳",exp=1},skill4={name="伏虎拳",exp=1}}
+enemy = {x = 7,y = 7,hp = 10,turn = 90,name = "赖三",action = "行动",
+		 color = colors.enemy}
+
+function moveToPoint:open(tick)
+	tick.blackboard:set('player',player,tick.tree.id,self.id)
+	tick.blackboard:set('enemy',enemy,tick.tree.id,self.id)
+end
 
 function moveToPoint:tick(tick)
-	-- local currTime = os.time()
-	local player = tick.blackboard:get("player")
-	local enemy = tick.blackboard:get('enemy')
-	-- if not startTime or startTime == 0 then
-	-- 	startTime = currTime
-	-- 	tick.blackboard:set("startTime", currTime, tick.tree.id, self.id)
-	-- end
-	-- --- 添加时间
-	-- self.endTime = startTime + self.parameters.milliseconds
-	-- if currTime - startTime > self.endTime then
-	-- 	return b3.SUCCESS
-	-- end
-	-- self.x = self.x + math.random( -1, 1 )
-	-- self.y = self.y + math.random( -1,1)
+
+	local player = tick.blackboard:get("player",tick.tree.id,self.id)
+	local enemy = tick.blackboard:get('enemy',tick.tree.id,self.id)
+
     local d = math.getDirection(enemy.x,enemy.y,player.x,player.y)
     if d == 'N' then actions.moveN(enemy) end
     if d == 'S' then actions.moveS(enemy) end
@@ -36,8 +41,4 @@ function moveToPoint:tick(tick)
 	end
 
 	return b3.RUNNING
-end
-
-function moveToPoint:execute( ... )
-	-- body
 end

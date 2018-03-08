@@ -55,11 +55,11 @@ function love.load()
     input:bind('u','r1')
     input:bind('w','l2')
     input:bind('o','r2')
-
     player = {x = 5,y = 5,hp = 8,turn = 100,name = "东方",action = "行动",
-    color = colors.player,skill1={name="长拳",exp=1},skill2={name="罗汉拳",exp=1},skill3={name="通背拳",exp=1},skill4={name="伏虎拳",exp=1}}
+                     color = colors.player,skill1={name="长拳",exp=1},skill2={name="罗汉拳",exp=1},skill3={name="通背拳",exp=1},skill4={name="伏虎拳",exp=1}}
     enemy = {x = 7,y = 7,hp = 10,turn = 90,name = "赖三",action = "行动",
-    color = colors.enemy}
+                    color = colors.enemy}
+
 
     player.id = math.createID()
     enemy.id = math.createID()
@@ -75,20 +75,11 @@ function love.load()
     -- 简单调试工具
     -- traceback()
     print("------------------------------------------------")
-    -- behaviorTree:load(behaviorJson)
-
     print("TreeID:"..behaviorTree.id)
     print("TreeTitle:"..behaviorTree.title)
     print("TreeDesc:"..behaviorTree.description)
-
-
-    local wp = {x=player.x,y=player.y}
-    blackBoard:set("wanderPoint",wp)
-    blackBoard:set("enemy",enemy)
-    blackBoard:set("player",player)
     behaviorTree:load('lib/behavior3/jsons/behavior3.json', {})
-    local wp1 = blackBoard:get("wanderPoint")
-    print(wp1.x .. "------------------------------------------------")
+
 end
 
 function love.draw()

@@ -9,9 +9,15 @@ function findWanderPoint:ctor(settings)
 	self.name = "FindWanderPoint"
 	self.title = "FindWanderPoint"
 	self.parameters = {x=self.x,y=self.y,radius=100}
-	-- self.x = settings.x or 100
-	-- self.y = settings.y or 100
+	self.x = settings.x
+	self.y = settings.y
 	self.radius = settings.radius or 100
+end
+
+function findWanderPoint:open(tick)
+	local point = {x = self.x,y=self.y}
+
+	tick.blackboard:set('point',point,tick.tree.id,self.id)
 end
 
 function findWanderPoint:tick(tick)
