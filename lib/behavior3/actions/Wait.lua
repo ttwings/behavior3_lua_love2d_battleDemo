@@ -8,20 +8,22 @@ function wait:ctor(settings)
 
 	self.name = "Wait"
 	self.title = "Wait <milliseconds>ms"
-	self.properties = {milliseconds = 0}
-	self.endTime = settings.milliseconds or 0
-
+	self.properties = {milliseconds = 0,turn = 0}
+	self.endTime = self.properties.turn
 end
-
 function wait:open(tick)
-	local startTime = os.time()
-	tick.blackboard:set('startTime', startTime, tick.tree.id, self.id)
+	local startTime = _G.timer.turn
+	tick.blackboard:set('startTime',startTime)
+	local actor = tick.blackboard:get('actor')
+	actions.wait(actor,self.properties.turn)
 end
 
 function wait:tick(tick)
-	local currTime = os.time()
-	local startTime = tick.blackboard:get("startTime", tick.tree.id, self.id)
-	if currTime - startTime > self.endTime then
+	local currTime = _G.timer.turn
+	local startTime = tick.blackboard:get("startTime")
+	--- 添加时间
+	if currTime - startTime >= self.endTime then
+		print('回合:'..currTime)
 		return b3.SUCCESS
 	end
 

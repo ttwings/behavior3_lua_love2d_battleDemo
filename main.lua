@@ -1,9 +1,11 @@
-require 'lib.util'
+local System = require 'lib.knife.system'
+local tool = require 'lib.util'
+local log = require 'lib.log'
 local actions = require("actions")
 local drawObjs = require("drawObjs")
 local Input = require "lib/Input"
+local grid2 = require('lib.grid')
 require( "lib.behavior3" )
-
 colors = {}
 colors.backgroud = {255,255,255}
 colors.player = {255,0,0}
@@ -34,6 +36,32 @@ function initGrid(numX,numY,value)
 	end
 	return g
 end
+
+local grid = initGrid(22,16,'x')
+
+grid = {
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','y','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','y','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','y','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+    {'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+}
+
+
+
+
 local behaviorTree = b3.BehaviorTree.new()
 local blackBoard = b3.Blackboard.new()
 
@@ -55,11 +83,11 @@ function love.load()
     input:bind('u','r1')
     input:bind('w','l2')
     input:bind('o','r2')
-    player = {x = 5,y = 5,hp = 8,turn = 100,name = "东方",action = "行动",
-                     color = colors.player,skill1={name="长拳",exp=1},skill2={name="罗汉拳",exp=1},skill3={name="通背拳",exp=1},skill4={name="伏虎拳",exp=1}}
-    enemy = {x = 7,y = 7,hp = 10,turn = 90,name = "赖三",action = "行动",
-                    color = colors.enemy}
 
+    player = {x = 5,y = 5,hp = 8,turn = 100,name = "东方",action = "行动",
+    color = colors.player,skill1={name="长拳",exp=1},skill2={name="罗汉拳",exp=1},skill3={name="通背拳",exp=1},skill4={name="伏虎拳",exp=1}}
+    enemy = {x = 7,y = 7,hp = 10,turn = 90,name = "赖三",action = "行动",
+    color = colors.enemy,skill1={name="松风剑法",exp=1},skill2={name="青城剑法",exp=1},skill3={name="辟邪剑法",exp=1}}
 
     player.id = math.createID()
     enemy.id = math.createID()
@@ -75,15 +103,21 @@ function love.load()
     -- 简单调试工具
     -- traceback()
     print("------------------------------------------------")
-    print("TreeID:"..behaviorTree.id)
+
     print("TreeTitle:"..behaviorTree.title)
     print("TreeDesc:"..behaviorTree.description)
-    behaviorTree:load('lib/behavior3/jsons/behavior3.json', {})
 
+    behaviorTree:load('lib/behavior3/jsons/behavior3.json', {})
+    blackBoard:set("actor",enemy)
+    blackBoard:set('target',player)
+    print("------------------------------------------------")
+    local cam = {x=32,y=32,scale = 0.5}
+    grid32 = grid2.new(cam)
 end
 
 function love.draw()
 	drawObjs.timerLine(timer)
+    drawObjs.grid(grid,0,1)
 	-- player turn
     drawObjs.actor(player)
     drawObjs.actor(enemy)
@@ -93,6 +127,7 @@ function love.draw()
     drawObjs.actorState(enemy,700,40,20)
     -- temperature
     drawObjs.temperature(temperature,760,500)
+    grid32.draw()
 end
 
 function love.update(dt)
@@ -104,8 +139,8 @@ function love.update(dt)
         if enemy.turn == timer.turn then
             table.insert(msg,enemy.name .. ":"..enemy.action)
             enemy.turn = timer.turn + math.random(1,10)
-
             behaviorTree:tick(enemy.id, blackBoard)
+
         end
     end
 

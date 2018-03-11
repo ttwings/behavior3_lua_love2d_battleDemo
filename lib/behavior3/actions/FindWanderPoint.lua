@@ -4,29 +4,30 @@ local findWanderPoint = b3.Class("FindWanderPoint", b3.Action)
 b3.FindWanderPoint = findWanderPoint
 
 function findWanderPoint:ctor(settings)
-	b3.Action.ctor(self, settings)
+	b3.Action.ctor(self)
 
 	self.name = "FindWanderPoint"
 	self.title = "FindWanderPoint"
-	self.parameters = {x=self.x,y=self.y,radius=100}
-	self.x = settings.x
-	self.y = settings.y
-	self.radius = settings.radius or 100
+	-- self.parameters = {x=self.x,y=self.y,radius=10}
+	self.properties = {x=self.x,y=self.y,radius=self.radius}
+	-- self.x = settings.x or 0
+	-- self.y = settings.y or 0
+	self.radius = settings.radius or 5
 end
 
 function findWanderPoint:open(tick)
-	local point = {x = self.x,y=self.y}
-
-	tick.blackboard:set('point',point,tick.tree.id,self.id)
+	local point = {x = self.properties.x,y = self.properties.y}
+	print('x:'..point.x..' y:'..point.y)
+	tick.blackboard:set('point',point)
 end
 
 function findWanderPoint:tick(tick)
-	local player = tick.blackboard:get("player")
-	local enemy = tick.blackboard:get("enemy")
 
-	if (player.x - enemy.x)^2 + (player.y - enemy.y)^2 < self.radius^2 then
+	local actor = tick.blackboard:get('actor')
+	local point = tick.blackboard:get('point')
+	if (point.x - actor.x)^2 + (point.y - actor.y)^2 < self.radius^2 then
 		return b3.SUCCESS
 	end
 
-	-- return b3.RUNNING
+	return b3.RUNNING
 end

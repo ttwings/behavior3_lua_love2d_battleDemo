@@ -8,8 +8,8 @@ function drawObjs.actor(player)
 end
 function drawObjs.message(message)
     love.graphics.setColor(255,255,255)
-    for i,v in ipairs(message) do
-        love.graphics.print(i..":"..v,10,580-18*i)
+    for i=#message,1,-1 do
+        love.graphics.print(i..":"..message[i],10,400+18*(#message-i))
     end
 end
 function drawObjs.timerLine(timer)
@@ -34,6 +34,25 @@ function drawObjs.actorState(actor,x,y,h)
             i = i + 1
         end
     end
+end
+
+function drawObjs.grid(grid,offx,offy)
+	local offx = offx or 0
+	local offy = offy or 0
+	love.graphics.setLineWidth(0.5)
+	love.graphics.setColor(32, 56, 125)
+	for x=1,#grid[1] do
+		for y=1,#grid do
+			if grid[y][x] == 'x' then
+				love.graphics.setColor(32, 56, 125)
+			end
+			if grid[y][x] == 'y' then
+				love.graphics.setColor(125, 56, 125)
+			end
+			love.graphics.rectangle('fill', (x+offx)*32, (y+offy)*32, 30, 30)
+			-- love.graphics.print(grid[y][x], (x+offx)*32, (y+offy)*32)
+		end
+	end
 end
 
 

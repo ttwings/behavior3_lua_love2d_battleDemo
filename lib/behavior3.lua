@@ -16,6 +16,7 @@ require 'lib.behavior3.actions.Succeeder'
 require 'lib.behavior3.actions.Wait'
 require 'lib.behavior3.actions.FindWanderPoint'
 require 'lib.behavior3.actions.MoveToPoint'
+require 'lib.behavior3.actions.Attack'
 
 require 'lib.behavior3.composites.MemPriority'
 require 'lib.behavior3.composites.MemSequence'

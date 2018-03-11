@@ -40,6 +40,35 @@ function actions.moveE(actor)
 	actor.turn = actor.turn + 20
 end
 
+function actions.moveEN(actor)
+	actor.action = "向东北移动"
+	actor.x = actor.x + 1
+	actor.y = actor.y - 1
+	actor.turn = actor.turn + 20
+end
+
+function actions.moveES(actor)
+	actor.action = "向东南移动"
+	actor.x = actor.x + 1
+	actor.y = actor.y + 1
+	actor.turn = actor.turn + 20
+end
+
+function actions.moveWN(actor)
+	actor.action = "向西北移动"
+	actor.x = actor.x - 1
+	actor.y = actor.y - 1
+	actor.turn = actor.turn + 20
+end
+
+function actions.moveWS(actor)
+	actor.action = "向西南移动"
+	actor.x = actor.x - 1
+	actor.y = actor.y + 1
+	actor.turn = actor.turn + 20
+end
+
+
 function actions.runN(actor)
 	actor.action = "向北闪"
 	actor.y = actor.y - 2
@@ -64,10 +93,18 @@ function actions.runE(actor)
 	actor.turn = actor.turn + 20
 end
 
-function attackMsg(target,skill)
+function attackMsg(target,skill,exp)
 	local s = skill
-	local msg = string.format("使用招式%s对%s造成%d点%s,%s获得1点熟练度",s.name,target.name,skillAttack(s),s.dT,s.name)
+	local msg = string.format("使用招式%s对%s造成%d点%s,%s熟练度变为%d",s.name,target.name,skillAttack(s),s.dT,s.name,exp)
 	return msg
+end
+
+function actions.attack(actor,target)
+	local s = skills[actor.skill1.name]
+	actor.turn = actor.turn + s.turn
+	actor.skill1.exp = actor.skill1.exp + 1
+	local exp = actor.skill1.exp
+	actor.action = attackMsg(target,s,exp)
 end
 
 function actions.attack1(actor,target)
@@ -128,9 +165,10 @@ function actions.deffence(actor)
 	actor.turn = actor.turn + 15
 end
 
-function actions.waiting(actor)
+function actions.wait(actor,turn)
+	local turn = turn or 10
 	actor.action = "等待"
-	actor.turn = actor.turn + 10
+	actor.turn = actor.turn + turn
 end
 
 function actions.use(actor)

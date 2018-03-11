@@ -18,10 +18,10 @@ function behaviorTree:load(jsonData, names)
     local data
     if type(jsonData) == 'table' then data = jsonData end
     if type(jsonData) == 'string' then
-    	 local f = assert(io.open(jsonData,"r"))
-    	 local t = f:read("*all")
-    	 f:close()
-    	--local t = love.filesystem.read(jsonData)
+    	-- local f = assert(io.open(jsonData,"r"))
+    	-- local t = f:read("*all")
+    	-- f:close()
+    	local t = love.filesystem.read(jsonData)
     	data = json.decode(t)
     end
 
@@ -58,7 +58,7 @@ function behaviorTree:load(jsonData, names)
 		id = i
 		spec = v
 		node = nodes[id]
-		print(i,v)
+		-- print(i,v)
 		if v.child then
 			node.child = nodes[v.child]
 		end
@@ -68,7 +68,7 @@ function behaviorTree:load(jsonData, names)
 				local cid = spec.children[i]
 				print("<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 				-- print(spec.children[i].title,spec.children[i],nodes[cid].title,nodes[cid])
-				print(nodes[cid].title.." "..nodes[cid].id)
+				print(nodes[cid].title)
 				-- print()
 				table.insert(node.children, nodes[cid])
 			end
@@ -81,7 +81,7 @@ end
 
 function behaviorTree:dump()
 	local data = {}
-	--local customNames = {}
+	local customNames = {}
 
 	data.title 			= self.title
 	data.description 	= self.description
@@ -113,7 +113,7 @@ function behaviorTree:tick(target, blackboard)
 	tick.tree 		= self
 
 	--TICK NODE
-	--local state = self.root:_execute(tick)
+	local state = self.root:_execute(tick)
 
 	--CLOSE NODES FROM LAST TICK, IF NEEDED
 	local lastOpenNodes = blackboard:get("openNodes", self.id)
@@ -127,7 +127,7 @@ function behaviorTree:tick(target, blackboard)
 	end
 
 	local start = 0
-	--local i
+	local i
 	for i = 0,math.min(table.getn(lastOpenNodes), table.getn(currOpenNodes)) do
 		start = i + 1
 		if lastOpenNodes[i] ~= currOpenNodes[i] then

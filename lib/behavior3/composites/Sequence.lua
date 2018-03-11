@@ -13,7 +13,7 @@ function sequence:tick(tick)
 	for i = 1,table.getn(self.children) do
 		local v = self.children[i]
 		local status = v:_execute(tick)
-		print(i,v)
+		print(i,v.title)
 		if status ~= b3.SUCCESS then
 			return status
 		end
