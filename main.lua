@@ -1,4 +1,3 @@
-local System = require 'lib.knife.system'
 local tool = require 'lib.util'
 local log = require 'lib.log'
 local actions = require("actions")
@@ -7,10 +6,10 @@ local Input = require "lib/Input"
 local grid2 = require('lib.grid')
 require( "lib.behavior3" )
 colors = {}
-colors.backgroud = {255,255,255}
-colors.player = {255,0,0}
-colors.enemy = {0,255,255}
-colors.timer = {255,255,0}
+colors.backgroud = {1,1,1}
+colors.player = {1,0,0}
+colors.enemy = {0,1,1}
+colors.timer = {1,1,0}
 
 --- 简单调试测试
 
@@ -127,7 +126,6 @@ function love.draw()
     drawObjs.actorState(enemy,700,40,20)
     -- temperature
     drawObjs.temperature(temperature,760,500)
-    grid32.draw()
 end
 
 function love.update(dt)

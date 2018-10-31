@@ -7,7 +7,7 @@ function drawObjs.actor(player)
     love.graphics.rectangle("fill",player.x*32,player.y*32,32,32)
 end
 function drawObjs.message(message)
-    love.graphics.setColor(255,255,255)
+    love.graphics.setColor(1,1,1)
     for i=#message,1,-1 do
         love.graphics.print(i..":"..message[i],10,400+18*(#message-i))
     end
@@ -19,7 +19,7 @@ function drawObjs.timerLine(timer)
     love.graphics.line(timer.timeLineX,timer.timeLineY,timer.timeLineLong + timer.timeLineX,timer.timeLineY)
     love.graphics.print(timer.timeLineName,timer.timeLineX - #timer.timeLineName*8,timer.timeLineY - 10)
     -- timer turn
-    love.graphics.setColor(255,255,0)
+    love.graphics.setColor(1,1,0)
     love.graphics.rectangle("fill",timer.turn%timer.timeLineLong + timer.timeLineX,timer.timeLineY - 5,5,5)
     love.graphics.print(timer.name,timer.turn%timer.timeLineLong + timer.timeLineX,timer.timeLineY - 20)
     love.graphics.print(timer.turn,timer.turn%timer.timeLineLong + timer.timeLineX,timer.timeLineY - 30)
@@ -40,14 +40,14 @@ function drawObjs.grid(grid,offx,offy)
 	local offx = offx or 0
 	local offy = offy or 0
 	love.graphics.setLineWidth(0.5)
-	love.graphics.setColor(32, 56, 125)
+	love.graphics.setColor(32/255, 56/255, 125/255)
 	for x=1,#grid[1] do
 		for y=1,#grid do
 			if grid[y][x] == 'x' then
-				love.graphics.setColor(32, 56, 125)
+				love.graphics.setColor(32/255, 56/255, 125/255)
 			end
 			if grid[y][x] == 'y' then
-				love.graphics.setColor(125, 56, 125)
+				love.graphics.setColor(125/255, 56/255, 125/255)
 			end
 			love.graphics.rectangle('fill', (x+offx)*32, (y+offy)*32, 30, 30)
 			-- love.graphics.print(grid[y][x], (x+offx)*32, (y+offy)*32)
@@ -77,16 +77,16 @@ function drawObjs.temperature(t,x,y)
 	love.graphics.setLineWidth(1)
 	love.graphics.rectangle("line",x,y,w,h)
 	-- part1
-	love.graphics.setColor(255, 0, 0)
+	love.graphics.setColor(1, 0, 0)
 	love.graphics.rectangle('fill',x+1,y1,w-1,h1)
 	-- part2
-	love.graphics.setColor(100,100,100)
+	love.graphics.setColor(0.5,0.5,0.5)
 	love.graphics.rectangle('fill',x+1,y2,w-1,h2)
 	-- part3
-	love.graphics.setColor(0,0,255)
+	love.graphics.setColor(0,0,1)
 	love.graphics.rectangle('fill',x+1,y3,w-1,h3)
 	-- part 0  outside temperature
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	love.graphics.rectangle('fill',x,y0,w-1,1)
 	-- state
 	local state = ''
