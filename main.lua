@@ -1,9 +1,11 @@
-local tool = require 'lib.util'
+require 'lib.util'
 local log = require 'lib.log'
 local actions = require("actions")
 local drawObjs = require("drawObjs")
 local Input = require "lib/Input"
 local grid2 = require('lib.grid')
+anim8 = require("lib.anim8")
+animation = require("lib.animation")
 require( "lib.behavior3" )
 colors = {}
 colors.backgroud = {1,1,1}
@@ -67,6 +69,21 @@ local blackBoard = b3.Blackboard.new()
 function love.load()
     local font = love.graphics.newFont("lib/msyh.ttf",12)
     love.graphics.setFont(font)
+
+    effect = {}
+    effect['001'] = love.graphics.newImage("assets/graphics/effect/eft001.png")
+    local w,h = effect['001']:getDimensions()
+    local fw,fh = 192,192
+    local g = anim8.newGrid(192, 192, w, h, 0,0, 0)
+    local length = math.floor(w/fw)
+    local str = '1-'.. length
+    a1 = anim8.newAnimation(g('1-3',1, 2, 1), 0.1,false)
+    ----1. ani=love.graphics.newAnimation(img,fx,fy,w,h,offx,offy,lx,ly,delay,count)
+    ----2. ani:update(dt) 在update里加入
+    ----3. love.graphics.draw(img,ani.frame) --画包含动画image,ani.frame是一个quad
+    a2 = animation:new(effect["001"],0,0,192,192,0,0,0,0,0.5)
+
+
     input = Input()
     input:bind('f','dpright')
     input:bind('s','dpleft')
@@ -112,6 +129,8 @@ function love.load()
     print("------------------------------------------------")
     local cam = {x=32,y=32,scale = 0.5}
     grid32 = grid2.new(cam)
+    mx,my = love.mouse.getPosition()
+    print(mx,my)
 end
 
 function love.draw()
@@ -126,9 +145,13 @@ function love.draw()
     drawObjs.actorState(enemy,700,40,20)
     -- temperature
     drawObjs.temperature(temperature,760,500)
+
+    a2:draw(mx,my)
 end
 
 function love.update(dt)
+    --a1:update(dt)
+    a2:update(dt)
     if player.turn > timer.turn then
         timer.turn = timer.turn + 1
         if player.turn == timer.turn then
