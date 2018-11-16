@@ -101,6 +101,11 @@ function animation:draw(x,y,rot,scaleX,scaleY,offx,offy)
 	love.graphics.draw(self.img,self.frame, x,y,rot,scaleX,scaleY,offx,offy)
 end
 
+function animation:destroy()
+	self.img = nil
+end
+
+--- 直接绑定到 love.graphics.newAnimation
 love.graphics.newAnimation=animation
 
 return animation
